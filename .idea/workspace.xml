@@ -2,8 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0e14c89c-a23b-4873-a139-4945a214f3ae" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/20210408/234.回文链表.py" beforeDir="false" afterPath="$PROJECT_DIR$/20210408/234.回文链表.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/20210408/剑指Offer22.链表中倒数第k个节点.py" beforeDir="false" afterPath="$PROJECT_DIR$/20210408/剑指Offer22.链表中倒数第k个节点.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/20210407/2.两数相加.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/20210407/206.反转链表.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/20210407/81.搜索旋转排序数组II.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/20210408/143.重排链表.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/20210408/148.排序链表.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/20210408/153.寻找旋转排序数组中的最小值.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/20210408/19.删除链表的倒数第N个结点.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/20210408/23.合并K个升序链表.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/20210408/234.回文链表.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/20210408/25.K个一组翻转链表.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/20210408/剑指Offer22.链表中倒数第k个节点.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,7 +45,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1618034181893</updated>
-      <workItem from="1618034183177" duration="1911000" />
+      <workItem from="1618034183177" duration="11578000" />
     </task>
     <servers />
   </component>
@@ -43,13 +53,17 @@
     <option name="version" value="3" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="304" y="206" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1618039124408">
+      <screen x="0" y="0" width="1280" height="800" />
+    </state>
+    <state x="304" y="206" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1280.800@0.0.1280.800" timestamp="1618039124408" />
     <state x="149" y="36" key="SettingsEditor" timestamp="1618035057279">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
     <state x="149" y="36" key="SettingsEditor/0.0.1280.800@0.0.1280.800" timestamp="1618035057279" />
-    <state x="305" y="124" width="670" height="676" key="search.everywhere.popup" timestamp="1618035365179">
+    <state x="305" y="124" width="670" height="676" key="search.everywhere.popup" timestamp="1618044361792">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state x="305" y="124" width="670" height="676" key="search.everywhere.popup/0.0.1280.800@0.0.1280.800" timestamp="1618035365179" />
+    <state x="305" y="124" width="670" height="676" key="search.everywhere.popup/0.0.1280.800@0.0.1280.800" timestamp="1618044361792" />
   </component>
 </project>
