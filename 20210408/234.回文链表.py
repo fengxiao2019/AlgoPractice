@@ -11,7 +11,6 @@
 
 当链表的长度为偶数时，l的长度 == r的长度
 当链表的长度为奇数时，l的长度 == r的长度 + 1
-#
 """
 
 
@@ -27,6 +26,7 @@ def split_link(head):
         return head, None
 
     slow, fast = head, head
+    # 必须要这种，才能使得L1的长度 >= L2
     while fast and fast.next and fast.next.next:
         slow = slow.next
         fast = fast.next.next
