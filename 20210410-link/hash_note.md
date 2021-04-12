@@ -207,6 +207,7 @@ hash(o) mod (n - 1)，这样绝大多数数据的存储节点都发生了变化�
 ![](../images/hash.jpg)
 #### 存在什么问题？如何解决的？
 
+
 #### 如何实现该算法？
 
 >> https://www.laurentluce.com/posts/python-dictionary-implementation/
