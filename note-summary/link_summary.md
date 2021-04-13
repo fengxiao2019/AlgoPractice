@@ -274,18 +274,171 @@ def merge(l1: ListNode, l2: ListNode) -> ListNode:
 ```
  
 ### 链表检测是否有环
- - 环检测算法
+```python
+
+"""
+141.环形链表
+算法有效性证明
+假设链表内有环
+链表如下：
+|---k----|
+A->B->C->D->E-->F
+        |       |
+        |       |
+        J<--I<- H
+
+我们先认为这种算法是行的通的，只要证明其合理性就可以
+假设：
+    在H点相遇
+    D-->H的距离为y
+    环的长度为l
+    A-->D 的长度为k
+slow 表示慢指针
+fast 表示快指针
+
+相遇的时候
+    slow走的总的路径长度 = k + pl + y
+    fast走的总的路径长度 = k + ql + y    q > p,因为fast走的快
+
+因为快指针的走的路径长度是慢指针的两倍，所以：
+2 * (k + pl + y) = k + ql + y
+k + y = (q - 2p) * l                  【M】
+如果，取
+    q = k, p = 0, y = kl - k
+
+左等式： k + y = k + kl - k = kl
+右等式   (q - 2p) * l = kl
+因此，可以找到相遇的点
+
+问题2: 怎么找到环的入口节点？
+对公式M进行简化，取z = q-2p，则：k + y = z*l =>  k = z * l - y
+让慢指针回到链表的头节点，调整快指针的步长为1，
+z的取值为 1，2，3，4，.....
+慢指针走k个节点，快指针走z * l - y个节点，也就是 (z - 1) * l + l - y,
+所以他们必然会在D节点相遇，也就找到了入口节点。
+时间复杂度：O(n)
+空间复杂度：O(1)
+
+"""
+def has_cycle(head: ListNode) -> bool:
+    slow, fast = head, head
+    while fast and fast.next:
+        fast = fast.next.next
+        slow = slow.next
+        # fast 和 slow 中如果没有环，不可能同时为空，所以可以排除同时为空的场景
+        # 如果有环，这里不可能为空，所以肯定是在环中相遇了
+        if fast == slow:
+            return True
+    return False
+
+
+def detectCycle(head: ListNode) -> ListNode:
+    # 边界条件处理
+    if not head or not head.next:
+        return
+        
+    slow, fast = head, head
+    while slow and fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+        if slow == fast:
+            break
+        
+    slow = head
+
+    while slow and fast:
+        if slow == fast:
+            return slow
+        slow = slow.next
+        fast = fast.next
+    return None
+``` 
  
 ### 链表去重
  - 保留重复节点
+ ```python
+def deleteDuplicates(head: ListNode) -> ListNode:
+    cur = head
+    while cur and cur.next:
+        if cur.val == cur.next.val:
+            cur.next = cur.next.next
+        else:
+            cur = cur.next
+    return head
+```
+
  - 删除重复节点
+ ```python
+def delete_duplicate(head: ListNode) -> ListNode:
+    dummy = ListNode(0)
+    dummy.next = head
+    head = dummy
+    while head and head.next and head.next.next:
+        if head.next.val == head.next.next.val:
+            # 找到重复节点 去重复
+            to_remove = head.next.val
+            while head and head.next and head.next.val == to_remove:
+                if head.next.val == to_remove:
+                    head.next = head.next.next
+            continue
+        else:
+            head = head.next
+    return dummy.next
+```
  
 ### 链表排序
  - 合并排序算法思想
+ 用到的思想就是递归 + 取中间节点 + 合并有序链表
+ ```python
+def sort_list(head: ListNode, tail: ListNode) -> ListNode:
+    # 边界条件处理
+    if head is None:
+        return head
+    if head.next == tail:
+        head.next = None
+        return head
 
-### 复制带随机节点的链表
+    # 取中间节点
+    slow, fast = head, head
+    while fast != tail and fast.next != tail:
+        slow = slow.next
+        fast = fast.next.next
 
-### 删除总和为零的连续节点
+    s_l = sort_list(head, slow)
+    s_r = sort_list(slow, tail)
+    return merge_sorted_link(s_l, s_r)
+```
+
+### 其他题目
+ - 删除总和为零的连续节点
+ ```
+ """
+1171. 从链表中删去总和值为零的连续节点
+A->B->C->D->E->F->D->None
+原理：如果A->...->F sum 为 100
+     并且A->...->C sum 为 100
+     说明D->...->F sum 为 0
+     
+     2. 在遍历节点不断推进的过程中，sum相同的节点会被后面的节点覆盖
+    0   1   2    3    4   5    6
+eg: 1-->2-->3-->-3-->-2-->3-->-3
+sum 1   3   6    3    1   4    1
+
+hash = {1: 6, 3: 3, 6: 3, 4: 4}
+
+第一个节点的sum 等于最后一个节点的sum，第二次遍历仅仅执行了第一个节点就完成了
+    
+一次遍历获取截止到每个节点的sum，key 为sum，value 为 node
+再进行一次遍历，利用上面的原理，获得sum 为0的区间，删除
+
+注意事项：头节点可能会被删除，所以需要建立value 为0的虚拟节点
+时间复杂度：O(n)
+空间复杂度：O(n) 
+"""
+ ```
+ - 公共节点
+ - 复制带随机指针的链表
+ - 插入排序 
 
 ### 链表设计题
 单链表

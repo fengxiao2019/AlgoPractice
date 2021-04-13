@@ -273,3 +273,21 @@ def merge(l1: ListNode, l2: ListNode) -> ListNode:
     # 别忘记处理l1
     new_node.next = l1
     return dummy.next
+
+"""
+链表去重
+"""
+def delete_duplicate(head: ListNode) -> ListNode:
+    dummy = ListNode(0)
+    dummy.next = head
+    head = dummy
+    while head and head.next and head.next.next:
+        if head.next.val == head.next.next.val:
+            to_remove = head.next.val
+            while head and head.next and head.next.val == to_remove:
+                if head.next.val == to_remove:
+                    head.next = head.next.next
+            continue
+        else:
+            head = head.next
+    return dummy.next
