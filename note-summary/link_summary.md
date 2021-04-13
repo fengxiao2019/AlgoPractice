@@ -487,6 +487,26 @@ eg: 假设，A.random 指向C，
 空间复杂度：O(n)
 """
 ```
+ - 插入排序
+ ```python
+"""
+147. 对链表进行插入排序
+排序过程中链表的头节点可能会发生变化
+1. 定义虚拟节点 dummy->head
+2. 确定已经排序完成的链表的尾部节点 last_sorted，初始化为head
+3. 开始进行选择排序，从cur = head.next 节点开始
+4. case 1: cur.val >= last_sorted.val => 更新last_sorted
+   case 2: cur.val < last_sorted.val 
+           从dummy.next 开始找合适的节点，node.next.val > cur.val
+           将cur 从原来的位置移除掉 last_sorted.next = cur.next
+           将cur 插入到node的后面 tmp = node.next; node.next = cur;cur.next=tmp
+           更新cur = last_sorted.next 继续执行第四步
+5. 返回dummy.next
+
+时间复杂度：O(n^2)
+空间复杂度：O(1)
+"""
+```
 ### 链表设计题
 单链表
 双链表
@@ -497,4 +517,3 @@ eg: 假设，A.random 指向C，
 - 多项式相加 
 - 多项式相乘
 - 基数排序
-
