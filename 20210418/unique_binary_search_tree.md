@@ -95,7 +95,86 @@ def generate_tree(n: int) -> List[TreeNode]:
     return _generate_trees(1, n)
 ```
 
-## 
+##  22. 括号生成
+### 题目描述
+```python
+数字 n 代表生成括号的对数，请你设计一个函数，用于能够生成所有可能的并且 有效的 括号组合。
+输入：n = 3
+输出：["((()))","(()())","(())()","()(())","()()()"]
+```
+### 解题思路
+![bracket 回溯][image-1]
+递归回溯下一个可以添加的括号，当数组的长度为2n时，检查括号对是否有效。
+时间复杂度：从上图可以看出，层级的节点会按照指数级增长
+$latex 1 \Rightarrow 2^2 \Rightarrow  2^3 \Rightarrow  2^4 \Rightarrow 2^5 \Rightarrow 2^6  \Rightarrow...\Rightarrow 2^{2n}\\$
+$latex sum(nodes) = \begin{matrix} \sum_{k=1}^{2n} 2^{k}\end{matrix}$
+
+
+
+```python
+"""
+解题思路:  暴力解法
+递归回溯下一个可以添加的括号，当数组的长度为2*n时，检查括号对是否有效。
+时间复杂度：从上图可以看出，层级的节点会按照指数级增长，1 2  4  8  16 ... 2^2n，
+空间复杂度：
+"""
+def generate_parenthesis(n: int) -> List[str]:
+    if n == 0: return []
+    if n == 1: return ['()']
+    res = set()
+    def helper(tmp, left, right):
+        for i in range(2*n):
+            if len(tmp) == 2 * n:
+                if valid(tmp):
+                    res.add("".join(tmp))
+            else:
+                tmp.append('(')
+                helper(tmp, left + 1, right)
+                tmp.pop()
+                tmp.append(')')
+                helper(tmp, left, right + 1)
+                tmp.pop()
+        return res
+    helper([], 0, 0)
+    return list(res)
+
+def generate_parenthesis(n: int) -> List[str]:
+    if n == 0: return []
+    if n == 1: return ['()']
+    res = set()
+    def helper(tmp, left, right):
+        for i in range(2*n):
+            if len(tmp) == 2 * n:
+               
+                res.add("".join(tmp))
+            else:
+                if left < n:
+                    tmp.append('(')
+                    helper(tmp, left + 1, right)
+                    tmp.pop()
+                if right < left:
+                    tmp.append(')')
+                    helper(tmp, left, right + 1)
+                    tmp.pop()
+        return res
+    helper([], 0, 0)
+    return list(res)
+         
+def valid(tmp):
+    balance = 0
+    if not tmp:
+        return False
+    for i in range(len(tmp)):
+        if tmp[i] == '(':
+            balance += 1
+        else:
+            balance -= 1
+        if balance < 0:
+            return False
+    return balance == 0
+        
+```
+
 ## 卡塔兰数
 英文名Catalan number，是组合数学中一个常出现在各种计数问题中的数列。
 第n个卡塔兰数的公式如下：
@@ -105,10 +184,11 @@ $latex \dbinom{2n}{n}=\binom{2n}{n}=\mathrm{C}_{2n}^n=\frac{2n!}{{n!}{n!}}$
 递归公式
 $latex C_{n+1} = C_0C_n + C_1C_{n-1} + ... + C_nC_0 = \begin{matrix} \sum_{k=0}^N C_kC_{n-k} \end{matrix}$
 
-￼![]()
+￼
 [引用][1]
 [引用2][2]
 
 [1]:	mail.google.com/mail/u/0/#inbox
 [2]:	https://brooksj.com/2019/09/23/%E5%8D%A1%E7%89%B9%E5%85%B0%E6%95%B0-Catalan-Number/
 
+[image-1]:	../images/bracket_generate.png
