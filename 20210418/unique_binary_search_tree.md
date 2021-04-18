@@ -1,6 +1,13 @@
 
+
  <script type="text/x-mathjax-config">
+
+
+
  MathJax.Hub.Config({tex2jax: {inlineMath:[['$latex','$']]}});
+
+
+
  </script>
  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
@@ -95,7 +102,7 @@ def generate_tree(n: int) -> List[TreeNode]:
     return _generate_trees(1, n)
 ```
 
-##  22. 括号生成
+## 22. 括号生成
 ### 题目描述
 ```python
 数字 n 代表生成括号的对数，请你设计一个函数，用于能够生成所有可能的并且 有效的 括号组合。
@@ -103,63 +110,68 @@ def generate_tree(n: int) -> List[TreeNode]:
 输出：["((()))","(()())","(())()","()(())","()()()"]
 ```
 ### 解题思路
-![bracket 回溯][image-1]
+![][image-1]
+重点：画图，画了图怎么解题，一目了然。
 递归回溯下一个可以添加的括号，当数组的长度为2n时，检查括号对是否有效。
-时间复杂度：从上图可以看出，层级的节点会按照指数级增长
-$latex 1 \Rightarrow 2^2 \Rightarrow  2^3 \Rightarrow  2^4 \Rightarrow 2^5 \Rightarrow 2^6  \Rightarrow...\Rightarrow 2^{2n}\\$
-$latex sum(nodes) = \begin{matrix} \sum_{k=1}^{2n} 2^{k}\end{matrix}$
+时间复杂度：O(n2^2n)从上图可以看出，层级的节点会按照指数级增长
+$latex 1 \Rightarrow 2^2 \Rightarrow  2^3 \Rightarrow  2^4 \Rightarrow 2^5 \Rightarrow 2^6  \Rightarrow...\Rightarrow 2^{2n}$
 
-
+$latex sum(nodes) = \begin{matrix} \sum\_{k=1}^{2n} 2^{k}\end{matrix}$
 
 ```python
 """
-解题思路:  暴力解法
-递归回溯下一个可以添加的括号，当数组的长度为2*n时，检查括号对是否有效。
-时间复杂度：从上图可以看出，层级的节点会按照指数级增长，1 2  4  8  16 ... 2^2n，
-空间复杂度：
+暴力解法
 """
 def generate_parenthesis(n: int) -> List[str]:
-    if n == 0: return []
-    if n == 1: return ['()']
     res = set()
     def helper(tmp, left, right):
-        for i in range(2*n):
-            if len(tmp) == 2 * n:
-                if valid(tmp):
-                    res.add("".join(tmp))
-            else:
+        if len(tmp) == 2 * n:
+            if valid(tmp):
+                res.add("".join(tmp))
+        else:
+            tmp.append('(')
+            helper(tmp, left + 1, right)
+            tmp.pop()
+            tmp.append(')')
+            helper(tmp, left, right + 1)
+            tmp.pop()
+        return res
+    helper([], 0, 0)
+    return list(res)
+
+```
+从图中可以看到可以优化的点：
+1. 同一方向的符号数量不能超过n，超过n就无效了
+2. 先’(’后‘)’，保证‘)’的数量不大于’(‘的数量就能保证括号对的有效性。
+
+```python
+"""
+优化后的代码
+"""
+def generate_parenthesis(n: int) -> List[str]:
+    res = set()
+    def helper(tmp, left, right):
+        if len(tmp) == 2 * n:
+            res.add("".join(tmp))
+            return
+        else:
+            if left < n:
                 tmp.append('(')
                 helper(tmp, left + 1, right)
                 tmp.pop()
+            if right < left:
                 tmp.append(')')
                 helper(tmp, left, right + 1)
                 tmp.pop()
         return res
     helper([], 0, 0)
-    return list(res)
+    return list(res)     
+```
 
-def generate_parenthesis(n: int) -> List[str]:
-    if n == 0: return []
-    if n == 1: return ['()']
-    res = set()
-    def helper(tmp, left, right):
-        for i in range(2*n):
-            if len(tmp) == 2 * n:
-               
-                res.add("".join(tmp))
-            else:
-                if left < n:
-                    tmp.append('(')
-                    helper(tmp, left + 1, right)
-                    tmp.pop()
-                if right < left:
-                    tmp.append(')')
-                    helper(tmp, left, right + 1)
-                    tmp.pop()
-        return res
-    helper([], 0, 0)
-    return list(res)
-         
+```python
+"""
+验证括号对的有效性
+"""
 def valid(tmp):
     balance = 0
     if not tmp:
@@ -172,23 +184,23 @@ def valid(tmp):
         if balance < 0:
             return False
     return balance == 0
-        
 ```
 
 ## 卡塔兰数
 英文名Catalan number，是组合数学中一个常出现在各种计数问题中的数列。
 第n个卡塔兰数的公式如下：
- $latex h(n) = \frac{C_{2n}^n}{n+1} = C_{2n}^n - C_{2n}^{n+1} $
+ $latex h(n) = \frac{C_{2n}^n}{n+1} = C_{2n}^n - C\_{2n}^{n+1} $
 其中关于组合的公式公式：
-$latex \dbinom{2n}{n}=\binom{2n}{n}=\mathrm{C}_{2n}^n=\frac{2n!}{{n!}{n!}}$
+$latex \dbinom{2n}{n}=\binom{2n}{n}=\mathrm{C}\_{2n}^n=\frac{2n!}{{n!}{n!}}$
 递归公式
-$latex C_{n+1} = C_0C_n + C_1C_{n-1} + ... + C_nC_0 = \begin{matrix} \sum_{k=0}^N C_kC_{n-k} \end{matrix}$
+$latex C_{n+1} = C\_0C\_n + C\_1C_{n-1} + ... + C\_nC\_0 = \begin{matrix} \sum_{k=0}^N C\_kC_{n-k} \end{matrix}$
 
-￼
-[引用][1]
-[引用2][2]
+￼## 引用
+[1]()[mail.google.com/mail/u/0/#inbox][2]
+[2][3][https://brooksj.com/2019/09/23/%E5%8D%A1%E7%89%B9%E5%85%B0%E6%95%B0-Catalan-Number/][4]
 
-[1]:	mail.google.com/mail/u/0/#inbox
-[2]:	https://brooksj.com/2019/09/23/%E5%8D%A1%E7%89%B9%E5%85%B0%E6%95%B0-Catalan-Number/
+[2]:	mail.google.com/mail/u/0/#inbox
+[3]:	https://brooksj.com/2019/09/23/%E5%8D%A1%E7%89%B9%E5%85%B0%E6%95%B0-Catalan-Number/
+[4]:	https://brooksj.com/2019/09/23/%E5%8D%A1%E7%89%B9%E5%85%B0%E6%95%B0-Catalan-Number/
 
-[image-1]:	../images/bracket_generate.png
+[image-1]:	https://tva1.sinaimg.cn/large/008eGmZEly1gpnzl2n0pcj30sy0ze0wh.jpg width=400 height=350
