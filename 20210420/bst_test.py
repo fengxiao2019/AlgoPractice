@@ -1,17 +1,17 @@
 import unittest
-from .binary_search_tree import BST, TreeNode
+from binary_search_tree import BSTBase as BST, BSTMorris, \
+    BSTNonRecursive, BSTRecusive, TreeNode
 import random
 from typing import List
 
 
-def _construct(nums: List[int]) -> TreeNode:
+def _construct(nums: List[int], bst_class) -> TreeNode:
     if not nums:
         return None
-    bst_proxy = BST(nums[0])
+    bst_proxy = bst_class(nums[0])
     for item in nums:
         bst_proxy.insert(item)
     return bst_proxy
-
 
 class Mixin(object):
 
@@ -42,11 +42,11 @@ class Mixin(object):
         return res
 
     @staticmethod
-    def construct_tree(nums) -> BST:
+    def construct_tree(nums, bst_class=BST) -> BST:
         # 原则：从nums中每次选取最大的值作为root，
         # 左边的节点从左边的列表中选择最大值
         # 右边的节点从右边的列表中选择最大的值
-        return _construct(nums)
+        return _construct(nums, bst_class)
 
 
 class BstTestCase(unittest.TestCase, Mixin):
@@ -54,7 +54,7 @@ class BstTestCase(unittest.TestCase, Mixin):
 
         self.root = BST(12)
         self.empty_root = BST()
-        self.sample = random.sample(range(1000), k=20)
+        self.sample = random.sample(range(1000), k=5)
 
     def test_None(self):
         self.empty_root.insert(12)
@@ -149,8 +149,36 @@ class BstTestCase(unittest.TestCase, Mixin):
 
     def test_floor(self):
         bst_proxy = self.construct_tree(self.sample)
-        print(self.sample)
         self.assertEqual(self.sample[5], bst_proxy.floor(self.sample[5] + 1))
+
+    def test_inorder_recursive(self):
+        bst_proxy = self.construct_tree(self.sample, BSTRecusive)
+        sorted_sample = sorted(self.sample)
+        self.assertEqual(bst_proxy.inorder(), sorted_sample)
+
+    def test_inorder_Morris(self):
+        bst_proxy = self.construct_tree(self.sample, BSTMorris)
+        sorted_sample = sorted(self.sample)
+        self.assertEqual(bst_proxy.inorder(), sorted_sample)
+
+    def test_preorder(self):
+        sample = self.sample
+        morris = self.construct_tree(sample, BSTMorris)
+        recursive = self.construct_tree(sample, BSTRecusive)
+        nonrecursive = self.construct_tree(sample, BSTNonRecursive)
+        self.assertEqual(morris.preorder(), recursive.preorder())
+        self.assertEqual(morris.preorder(), nonrecursive.preorder())
+
+    def test_postorder(self):
+        sample = self.sample
+        sample = [55, 82, 549, 44, 39]
+        print(sample)
+
+        morris = self.construct_tree(sample, BSTMorris)
+        print(morris.preorder())
+        res = morris.postorder()
+        self.assertTrue(res, True)
+
 
 
 if __name__ == '__main__':

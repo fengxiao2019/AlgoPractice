@@ -1,13 +1,5 @@
-
-
- <script type="text/x-mathjax-config">
-
-
-
- MathJax.Hub.Config({tex2jax: {inlineMath:[['$latex','$']]}});
-
-
-
+<script type="text/x-mathjax-config">
+ MathJax.Hub.Config({tex2jax: {inlineMath:[['$','$']]}});
  </script>
  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
@@ -115,7 +107,6 @@ def generate_tree(n: int) -> List[TreeNode]:
 递归回溯下一个可以添加的括号，当数组的长度为2n时，检查括号对是否有效。
 时间复杂度：O(n2^2n)从上图可以看出，层级的节点会按照指数级增长
 $latex 1 \Rightarrow 2^2 \Rightarrow  2^3 \Rightarrow  2^4 \Rightarrow 2^5 \Rightarrow 2^6  \Rightarrow...\Rightarrow 2^{2n}$
-
 $latex sum(nodes) = \begin{matrix} \sum\_{k=1}^{2n} 2^{k}\end{matrix}$
 
 ```python

@@ -3,6 +3,8 @@
 二叉树节点
 """
 from functools import wraps
+from abc import ABC
+from typing import List
 
 
 def none_decorator(fun):
@@ -24,7 +26,207 @@ class TreeNode(object):
         return f"<Node> {self.val}"
 
 
-class BST:
+class MorrisMixin(object):
+    """
+    遍历步骤：
+    step1: 初始化根为当前节点curr。
+
+    step2: 当curr不是NULL时，检查curr是否有一个左边的孩子。
+
+    step3: 如果curr没有左边的子节点，打印curr并将其更新为指向curr右边的节点。
+
+    step4: 否则，使curr成为curr的左子树中最右边的节点的右子。
+
+    step5: 将curr更新到这个左节点。
+    时间复杂度：O(n)
+    空间复杂度：O(1)
+    """
+    def inorder(self):
+        res = []  # 存储结构
+        root = self.head
+        print("enter Morris inorder")
+        while root: # 节点为空说明遍历完了
+            if root.left is None:
+                res.append(root.val)
+                root = root.right
+            else:
+                prev = root.left
+                while prev.right and prev.right != root: # 找前驱节点
+                    prev = prev.right
+
+                if prev.right is None:
+                    prev.right = root
+                    root = root.left
+                else:
+                    # 前驱处理完了
+                    res.append(root.val)
+                    prev.right = None
+                    root = root.right
+        return res
+
+    def preorder(self):
+        res = []
+        root = self.head
+        while root:
+            if root.left is None:
+                res.append(root.val)
+                root = root.right
+            else:
+                prev = root.left
+                while prev.right and prev.right != root:
+                    prev = prev.right
+                if prev.right is None:
+                    res.append(root.val)
+                    prev.right = root
+                    root = root.left
+                else:
+                    prev.right = None
+                    root = root.right
+        return res
+
+    def postorder(self):
+        res = []
+        dummy = TreeNode('dummy')
+        dummy.left = self.head
+        root = dummy
+        prev = None
+        while root:
+            # 左子树不存在，进入右子树处理
+            if root.left is None:
+                root = root.right
+            else:
+                # 左子树存在，进入左子树
+                prev = root.left
+                # 找前驱节点
+                while prev.right and prev.right != root:
+                    prev = prev.right
+                # 如果前驱节点自然结束
+                if prev.right is None:
+                    # 将前驱节点指向后继节点
+                    # 处理左节点
+                    prev.right = root
+                    root = root.left
+                else:
+                    # 在这里处理后序访问
+                    self._visit_reverse(root.left, prev, res)
+                    prev.right = None  # 断开 前驱节点到后继节点的连接
+                    # 前驱节点处理完了，恢复树
+                    root = root.right
+            print(prev, root)
+
+    def _reverse(self, node1: TreeNode, node2: TreeNode) -> (TreeNode, TreeNode):
+        print(node1.val, node2.val)
+        prev = node1
+        head = prev.right
+
+        if node1 == node2:
+            return (node1, node2)
+
+        prev.right = None
+
+        while head != node2:
+            print(head.val)
+            tmp = head.right
+            head.right = prev
+            prev = head
+            head = tmp
+        return prev, node1
+
+    def _visit_reverse(self, node1: TreeNode, node2: TreeNode, res: List[int]) -> None:
+        print(res)
+        print(node1, node2)
+        start, end = self._reverse(node1, node2)
+        node = start
+        while node != end:
+            res.append(node.val)
+            node = node.right
+        res.append(node2.val)
+        self._reverse(end, start)
+
+
+class RecursiveMixin(object):
+    def inorder(self):
+        res = []
+        print("enter recursive inorder")
+        def helper(root: TreeNode) -> None:
+            if root is None: return
+            helper(root.left)
+            res.append(root.val)
+            helper(root.right)
+
+        helper(self.head)
+        return res
+
+    def preorder(self):
+        res = []
+
+        def helper(root: TreeNode) -> None:
+            if root is None: return
+            res.append(root.val)
+            helper(root.left)
+            helper(root.right)
+        helper(self.head)
+        return res
+
+    def postorder(self):
+        res = []
+
+        def helper(root: TreeNode) -> None:
+            if root is None: return
+            helper(root.left)
+            helper(root.right)
+            res.append(root.val)
+        helper(self.head)
+        return res
+
+
+class NonRecursiveMixin(object):
+    def inorder(self):
+        stack = []
+        res = []
+        root = self.head
+        while stack or root:
+            if root:
+                stack.append(root)
+                root = root.left
+            else:
+                peek = stack.pop()
+                res.append(peek.val)
+                root = peek.right
+        return res
+
+    def preorder(self):
+        stack = [self.head]
+        res = []
+        while stack:
+            node = stack.pop()
+            res.append(node.val)
+            if node.right:
+                stack.append(node.right)
+            if node.left:
+                stack.append(node.left)
+        return res
+
+    def postorder(self):
+        stack = []
+        res = []
+        root = self.head
+        last_visited = None
+        while stack or root:
+            if root:
+                stack.append(root)
+                root = root.left
+            else:
+                peek = stack[-1]
+                if peek.right and peek.right != last_visited:
+                    root = peek.right
+                else:
+                    last_visited = stack.pop()
+                    res.append(last_visited.val)
+        return res
+
+
+class BSTBase(object):
     def __init__(self, val=None):
         self.head = None if val is None else TreeNode(val)
 
@@ -393,3 +595,30 @@ class BST:
                 helper(root.left, val)
             return node.val if node else None
         return helper(root, val)
+
+
+class BSTMorris(BSTBase, MorrisMixin):
+    pass
+
+
+class BSTNonRecursive(BSTBase, NonRecursiveMixin):
+    pass
+
+
+class BSTRecusive(BSTBase, RecursiveMixin):
+    pass
+
+
+class BinaryTree(object):
+    def __init__(self):
+        self.head = None
+
+    def insert(self):
+        pass
+
+    def to_bst(self):
+        pass
+
+
+if __name__ == '__main__':
+    print(BSTMorris.__mro__)
