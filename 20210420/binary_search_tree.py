@@ -3,7 +3,6 @@
 二叉树节点
 """
 from functools import wraps
-from abc import ABC
 from typing import List
 
 
@@ -41,47 +40,52 @@ class MorrisMixin(object):
     时间复杂度：O(n)
     空间复杂度：O(1)
     """
+
     def inorder(self):
-        res = []  # 存储结构
-        root = self.head
-        print("enter Morris inorder")
-        while root: # 节点为空说明遍历完了
-            if root.left is None:
-                res.append(root.val)
-                root = root.right
-            else:
-                prev = root.left
-                while prev.right and prev.right != root: # 找前驱节点
-                    prev = prev.right
-
-                if prev.right is None:
-                    prev.right = root
-                    root = root.left
-                else:
-                    # 前驱处理完了
-                    res.append(root.val)
-                    prev.right = None
-                    root = root.right
-        return res
-
-    def preorder(self):
         res = []
         root = self.head
+        prev = None
         while root:
-            if root.left is None:
-                res.append(root.val)
-                root = root.right
+            if root.left is None: # 如果左节点为空
+                res.append(root.val)  # 可以把当前值存储
+                root = root.right # 进入右节点
             else:
+                # 找前驱节点
                 prev = root.left
                 while prev.right and prev.right != root:
                     prev = prev.right
+
+                # 如果是正常结束的
                 if prev.right is None:
-                    res.append(root.val)
-                    prev.right = root
+                    prev.right = None
                     root = root.left
                 else:
+                    res.append(root.val)
                     prev.right = None
                     root = root.right
+            return res
+
+    def preorder(self):
+        """
+        先处理当前节点
+        如果当前节点不存在左子树，
+        :return:
+        """
+        res = []
+        root = self.head
+        pre = None
+        while root:
+            res.append(root.val)
+            if not root.left:
+                root = root.right
+            else:
+                pre = root.left
+                while pre.right: pre = pre.right
+                # 将后继节点指向当前节点的右子树
+                pre.right = root.right
+                root.right = None
+
+                root = root.left
         return res
 
     def postorder(self):

@@ -157,27 +157,29 @@ class BstTestCase(unittest.TestCase, Mixin):
         self.assertEqual(bst_proxy.inorder(), sorted_sample)
 
     def test_inorder_Morris(self):
-        bst_proxy = self.construct_tree(self.sample, BSTMorris)
-        sorted_sample = sorted(self.sample)
+        sample = [55, 82, 549, 44, 39]
+        bst_proxy = self.construct_tree(sample, BSTMorris)
+        sorted_sample = sorted(sample)
         self.assertEqual(bst_proxy.inorder(), sorted_sample)
 
     def test_preorder(self):
         sample = self.sample
+        sample = [55, 82, 549, 44, 39]
         morris = self.construct_tree(sample, BSTMorris)
         recursive = self.construct_tree(sample, BSTRecusive)
         nonrecursive = self.construct_tree(sample, BSTNonRecursive)
         self.assertEqual(morris.preorder(), recursive.preorder())
         self.assertEqual(morris.preorder(), nonrecursive.preorder())
 
-    def test_postorder(self):
-        sample = self.sample
-        sample = [55, 82, 549, 44, 39]
-        print(sample)
-
-        morris = self.construct_tree(sample, BSTMorris)
-        print(morris.preorder())
-        res = morris.postorder()
-        self.assertTrue(res, True)
+    # def test_postorder(self):
+    #     sample = self.sample
+    #     sample = [55, 82, 549, 44, 39]
+    #     print(sample)
+    #
+    #     morris = self.construct_tree(sample, BSTMorris)
+    #     print(morris.preorder())
+    #     res = morris.postorder()
+    #     self.assertTrue(res, True)
 
 
 
