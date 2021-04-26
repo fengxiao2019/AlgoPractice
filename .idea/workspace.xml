@@ -2,12 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0e14c89c-a23b-4873-a139-4945a214f3ae" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/leetcode_notes.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/leetcode_notes.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/20210420/binary_search_tree.py" beforeDir="false" afterPath="$PROJECT_DIR$/20210420/binary_search_tree.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/20210420/bst_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/20210420/bst_test.py" afterDir="false" />
       <change beforePath="$USER_HOME$/wkspace/rebirth_master/server/applibs/crm/proxy.py" beforeDir="false" afterPath="$USER_HOME$/wkspace/rebirth_master/server/applibs/crm/proxy.py" afterDir="false" />
       <change beforePath="$USER_HOME$/wkspace/rebirth_master/server/applibs/crm/schema/op_schema.py" beforeDir="false" afterPath="$USER_HOME$/wkspace/rebirth_master/server/applibs/crm/schema/op_schema.py" afterDir="false" />
       <change beforePath="$USER_HOME$/wkspace/rebirth_master/server/applibs/crm/schema/serializer.py" beforeDir="false" afterPath="$USER_HOME$/wkspace/rebirth_master/server/applibs/crm/schema/serializer.py" afterDir="false" />
+      <change beforePath="$USER_HOME$/wkspace/shanhai/case_agency/import_logic/info_stream.py" beforeDir="false" afterPath="$USER_HOME$/wkspace/shanhai/case_agency/import_logic/info_stream.py" afterDir="false" />
+      <change beforePath="$USER_HOME$/wkspace/shanhai/dashboard/logic/logic.py" beforeDir="false" afterPath="$USER_HOME$/wkspace/shanhai/dashboard/logic/logic.py" afterDir="false" />
+      <change beforePath="$USER_HOME$/wkspace/shanhai/org/models.py" beforeDir="false" afterPath="$USER_HOME$/wkspace/shanhai/org/models.py" afterDir="false" />
+      <change beforePath="$USER_HOME$/wkspace/shanhai/tools/try_agent_update.py" beforeDir="false" afterPath="$USER_HOME$/wkspace/shanhai/tools/try_agent_update.py" afterDir="false" />
+      <change beforePath="$USER_HOME$/wkspace/shanhai/urge/medusa_models.py" beforeDir="false" afterPath="$USER_HOME$/wkspace/shanhai/urge/medusa_models.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,7 +25,7 @@
     <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$USER_HOME$/wkspace/shanhai" />
   </component>
   <component name="JupyterTrust" id="c5efb1e6-6755-4e3f-ae44-c60e2a718f2c" />
   <component name="ProjectId" id="1qxviKCgFM5areGMSlUyz4RQAg2" />
@@ -32,7 +39,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
-    <property name="settings.editor.selected.configurable" value="configurable.group.build" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RunManager" selected="Python tests.Unittests for bst_test.BstTestCase.test_preorder (1)">
@@ -136,6 +143,7 @@
       <workItem from="1618656511458" duration="9339000" />
       <workItem from="1618886055511" duration="474000" />
       <workItem from="1618886861058" duration="53075000" />
+      <workItem from="1619278409856" duration="2486000" />
     </task>
     <servers />
   </component>
@@ -191,10 +199,10 @@
     </state>
     <state width="1038" height="722" key="GridCell.Tab.1.right/-1920.0.1920.1080/0.0.1080.1920@0.0.1080.1920" timestamp="1618930637686" />
     <state width="1238" height="274" key="GridCell.Tab.1.right/0.0.1280.800@0.0.1280.800" timestamp="1618996198225" />
-    <state x="149" y="36" key="SettingsEditor" timestamp="1618991930643">
+    <state x="149" y="36" key="SettingsEditor" timestamp="1619328455278">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state x="149" y="36" key="SettingsEditor/0.0.1280.800@0.0.1280.800" timestamp="1618991930643" />
+    <state x="149" y="36" key="SettingsEditor/0.0.1280.800@0.0.1280.800" timestamp="1619328455278" />
     <state x="305" y="124" width="670" height="676" key="search.everywhere.popup" timestamp="1618981126255">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
