@@ -149,5 +149,5 @@ class Trie:
 > 
 > term dictionary 在磁盘中是按块存储的，一个 block 内部利用公共前缀压缩。
 
-[image-1]:	images/trie02.gif
-[image-2]:	images/trie08.gif
+[image-1]:	../images/trie02.gif
+[image-2]:	../images/trie08.gif
