@@ -7,7 +7,7 @@
 ### [栈和队列][6]
 ### [ 动态规划][7]
 ### 树
-- 前缀树
+- [前缀树][8]
 
 
 
@@ -20,3 +20,4 @@
 [5]:	https://github.com/fengxiao2019/AlgoPractice/tree/master/DataStructure/heap "heap"
 [6]:	https://github.com/fengxiao2019/AlgoPractice/tree/master/DataStructure/stack
 [7]:	https://github.com/fengxiao2019/AlgoPractice/tree/master/DataStructure/dp
+[8]:	https://github.com/fengxiao2019/AlgoPractice/blob/master/DataStructure/tree/trie.md
