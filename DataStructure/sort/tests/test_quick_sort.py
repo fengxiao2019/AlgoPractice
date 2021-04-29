@@ -1,10 +1,10 @@
 import unittest
-from daily.sort.src.quick_sort import QuickSort, QuickSort2
-from daily.sort.src.bubble_sort import BubbleSort
-from daily.sort.src.insert_sort import InsertSort
-from daily.sort.src.bucket_sort import BucketSort
-from daily.sort.src.heap_sort import HeapSort
-from daily.sort.src.radix_sort import RadixSort
+from DataStructure.sort.src import QuickSort, QuickSort2
+from DataStructure.sort.src.bubble_sort import BubbleSort
+from DataStructure.sort.src import InsertSort
+from DataStructure.sort.src import BucketSort
+from DataStructure.sort.src import HeapSort
+from DataStructure.sort.src import RadixSort
 
 
 class BaseMixin(object):
