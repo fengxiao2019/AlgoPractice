@@ -1,11 +1,11 @@
 # 数据结构练习笔记
-## [每日练习][1]
-### [ 数据结构][2]
-### [ Link][3]
-### [Bit operation][4]
-### [heap][5]
-### [stack and queue][6]
-### [ DP][7]
+- [每日练习][1]
+- [ 数据结构][2]
+- [ Link][3]
+- [Bit operation][4]
+- [heap][5]
+- [stack and queue][6]
+- [ DP][7]
 
 
 
