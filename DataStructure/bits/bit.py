@@ -157,6 +157,3 @@ def range_bitwise_and_I(m, n):
 
 
 print(range_bitwise_and(187, 188), range_bitwise_and_I(187, 188))
-
-
-# %%
