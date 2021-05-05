@@ -1,6 +1,7 @@
 import unittest
-import importlib
-perm_module = importlib.import_module('daily.20210504.permutations')
+# import importlib
+# perm_module = importlib.import_module('daily.20210504.permutations')
+import daily.L20210504.permutations as perm_module
 
 
 class TestParentThesis(unittest.TestCase):
