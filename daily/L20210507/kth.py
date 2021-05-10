@@ -4,15 +4,15 @@
 from typing import List
 
 """
-base 0
+寻找两个有序数组的第k个元素
 """
+
+
 def kth(nums1: List[int], nums2: List[int], k: int) -> int:
     # 处理边界条件
-    if not nums1:
-        return nums2[k]
+    if not nums1: return nums2[k]
+    if not nums2: return nums1[k]
 
-    if not nums2:
-        return nums1[k]
     mid_1 = len(nums1) // 2
     mid_2 = len(nums2) // 2
     v_1 = nums1[mid_1]
@@ -29,10 +29,10 @@ def kth(nums1: List[int], nums2: List[int], k: int) -> int:
         else:
             return kth(nums1, nums2[:mid_2], k)
 
-"""
-利用找第k个元素
-"""
+
 import unittest
+
+
 class TestKth(unittest.TestCase):
     def test_kth(self):
         self.assertEqual(kth([1, 4, 7, 9], [2, 6, 10], 1), 2)
