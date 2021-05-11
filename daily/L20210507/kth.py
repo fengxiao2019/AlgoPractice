@@ -5,6 +5,7 @@ from typing import List
 
 """
 寻找两个有序数组的第k个元素
+递归写法
 """
 
 
@@ -28,6 +29,10 @@ def kth(nums1: List[int], nums2: List[int], k: int) -> int:
             return kth(nums1[:mid_1], nums2, k)
         else:
             return kth(nums1, nums2[:mid_2], k)
+
+"""
+迭代写法
+"""
 
 
 import unittest
