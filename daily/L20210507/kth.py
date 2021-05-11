@@ -11,8 +11,8 @@ from typing import List
 
 def kth(nums1: List[int], nums2: List[int], k: int) -> int:
     # 处理边界条件
-    if not nums1: return nums2[k]
-    if not nums2: return nums1[k]
+    if not nums1: return nums2[k - 1]
+    if not nums2: return nums1[k - 1]
 
     mid_1 = len(nums1) // 2
     mid_2 = len(nums2) // 2
@@ -40,8 +40,32 @@ def kth(nums1: List[int], nums2: List[int], k: int) -> int:
             return kth(nums1, nums2[:mid_2], k)
 
 """
-迭代写法
+找到
 """
+def kthi(nums1: List[int], nums2: List[int], k: int) -> int:
+    if not nums1: return nums2[k-1]
+    if not nums2: return nums1[k-1]
+
+    l1, r1 = 0, len(nums1) - 1
+    l2, r2 = 0, len(nums2) - 1
+    while l1 <= r1 and l2 <= r2:
+        mid_1 = (l1 + r1) // 2
+        mid_2 = (l2 + r2) // 2
+        v1 = nums1[mid_1]
+        v2 = nums2[mid_2]
+        if mid_1 + mid_2 == k - 1:
+            return max(v1, v2)
+        elif mid_1 + mid_2 > k - 1:
+            if v1 > v2:
+                r1 = mid_1 - 1
+            else:
+                r2 = mid_2 - 1
+        else:
+            if v1 > v2:
+                l2 = mid_2 + 1
+            else:
+                l1 = mid_1 + 1
+    return None
 
 
 import unittest
@@ -49,4 +73,4 @@ import unittest
 
 class TestKth(unittest.TestCase):
     def test_kth(self):
-        self.assertEqual(kth([3, 6, 8, 9], [2, 4, 5, 8], 4), 6)
+        self.assertEqual(kth([3, 6, 8, 9], [], 2), 6)
