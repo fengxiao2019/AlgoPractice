@@ -1,63 +1,4 @@
-## 删除相邻且重复的元素
-
-场景1: [有序链表，重复的元素保留1个 ][1]
-
-```python
-
-"""
-解题思路：头节点不会发生变化，所以不需要借助虚拟节点
-head.val == head.next.val => head.next = head.next.next
-head.val != head.next.val => head = head.next
-退出循环的条件：head and head.next
-时间复杂度：O(n)
-空间复杂度：O(1)
-"""
-
-def deleteDuplicates(head: ListNode) -> ListNode:
-	cur = head
-	while head and head.next:
-    	if head.val == head.next.val:
-        	head.next = head.next.next
-    	else:
-        	head = head.next
-	return cur
-```
-场景2: [有序链表，重复的元素全部删除 ][2]
-```python
-"""
-解题思路：因为头节点有可能被删除，所以需要借助虚拟节点dummy
-dummy.next = head
-head = dummy
-dummy --- 1----- 2
-怎么判断是否有重复元素？因为head此时指向dummy节点，所以需要检查
-    head.next 以及head.next.next
-所以，判断的条件是：
-    head.next.val == head.next.next.val
-因为要删除重复元素，设置to_del = head.next.val
-    执行一个while 循环 删除重复的元素
-    while head and head.next and head.next.val == to_del:
-        head.next = head.next.next
-
-如果head.next.val != head.next.next.val ,说明head.next 不是一个重复元素，可以处理下一个节点
-head = head.next
-时间复杂度：O(n)
-空间复杂度：O(1)
-
-"""
-def deleteDuplicates(head: ListNode) -> ListNode:
-    dummy = ListNode(-1)
-    dummy.next = head
-    head = dummy
-    while head and head.next and head.next.next:
-        if head.next.val == head.next.next.val:
-            to_del = head.next.val
-            while head and head.next and head.next.val == to_del:
-                head.next = head.next.next
-        else:
-            head = head.next
-    return dummy.next
-```
-场景3: 有序链表，重复的元素保留k个 ，k \>= 1
+ 场景3: 有序链表，重复的元素保留k个 ，k \>= 1
 这个情况下，在场景1的代码上进行改造就能够完成
 ```python
 def deleteDuplicates(head: ListNode, k: int) -> ListNode:
@@ -75,7 +16,7 @@ def deleteDuplicates(head: ListNode, k: int) -> ListNode:
             count = 1
     return cur
 ```
-[场景4: 有序数组，相邻重复的元素保留1个，原地删除 lc26][3] 
+[场景4: 有序数组，相邻重复的元素保留1个，原地删除 lc26][1] 
 ```python
 """
 解题思路：
@@ -130,7 +71,7 @@ def removeAllDuplicates(nums: List[int]) ->List[int]:
             i += 1
     return stack
 ```
-[场景6: 有序数组，重复的元素保留k个，原地删除.  LC 80][4]
+[场景6: 有序数组，重复的元素保留k个，原地删除.  LC 80][2]
 ```python
 """
 关键词：有序 重复  原地 返回新长度
@@ -154,7 +95,7 @@ def removeDuplicates(nums: List[int], k:int) -> int:
             i += 1
     return i + 1
 ```
-[场景7. 删除字符串中的所有相邻重复项 lc. 1047][5]
+[场景7. 删除字符串中的所有相邻重复项 lc. 1047][3]
 ```python
 """
 因为是相邻重复项，可以使用栈来处理
@@ -186,7 +127,7 @@ def removeDuplicates(s: str) -> str:
             i += 1
     return "".join(res[:i])
 ```
-[场景8. 删除字符串中的所有相邻重复项 II  lc.1209][6]
+[场景8. 删除字符串中的所有相邻重复项 II  lc.1209][4]
 > 给你一个字符串 s，「k 倍重复项删除操作」将会从 s 中选择 k 个相邻且相等的字母，并删除它们，使被删去的字符串的左侧和右侧连在一起。
 > 你需要对 s 重复进行无限次这样的删除操作，直到无法继续为止。
 > 在执行完所有删除操作后，返回最终得到的字符串。
@@ -241,9 +182,7 @@ def removeDuplicates(s: str) -> str:
 ```
 
 
-[1]:	https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list/
-[2]:	https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list-ii/
-[3]:	https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array/
-[4]:	https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array-ii/
-[5]:	https://leetcode-cn.com/problems/remove-all-adjacent-duplicates-in-string/
-[6]:	https://leetcode-cn.com/problems/remove-all-adjacent-duplicates-in-string-ii/
+[1]:	https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array/
+[2]:	https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array-ii/
+[3]:	https://leetcode-cn.com/problems/remove-all-adjacent-duplicates-in-string/
+[4]:	https://leetcode-cn.com/problems/remove-all-adjacent-duplicates-in-string-ii/
