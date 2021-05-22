@@ -20,7 +20,6 @@ class _Node(object):
 class LFU(object):
     # hash map + double link list
     def __init__(self, capacity):
-        import ipdb; ipdb.set_trace()
         self.cache = {}
         self.capacity = capacity
 

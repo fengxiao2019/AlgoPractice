@@ -5,7 +5,7 @@ class Solution:
 
 
 """
-解题思路：当掉递增栈
+解题思路：递增栈
 3   1   2   4
 sum(min(b)) = f(i) * nums[i]  i = 0 1 2  ... n-1
 f(i) 表示以nums[i]为最小值的子数组的个数
