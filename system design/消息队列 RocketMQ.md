@@ -5,8 +5,8 @@
 发消息时，设置delayLevel等级即可：msg.setDelayLevel(level)。level有以下三种情况：
 
 level == 0，消息为非延迟消息
-1\<=level\<=maxLevel，消息延迟特定时间，例如level==1，延迟1s
-level \> maxLevel，则level== maxLevel，例如level==20，延迟2h
+1<=level<=maxLevel，消息延迟特定时间，例如level==1，延迟1s
+level > maxLevel，则level== maxLevel，例如level==20，延迟2h
 **原理**
 为了保证消息的持久性，所有的消息都会存入CommitLog，定时消息也不例外。
 定时消息会暂存在名为SCHEDULE_TOPIC_XXXX的topic中，并根据delayTimeLevel存入特定的queue，queueId = delayTimeLevel – 1，即一个queue只存相同延迟的消息，保证具有相同发送延迟的消息能够顺序消费。broker会调度地消费SCHEDULE_TOPIC_XXXX，将消息写入真实的topic。
@@ -14,6 +14,7 @@ level \> maxLevel，则level== maxLevel，例如level==20，延迟2h
 需要注意的是，定时消息会在第一次写入和调度写入真实topic时都会计数，因此发送数量、tps都会变高。
 ## 事务消息
 RocketMQ事务消息（Transactional Message）是指应用本地事务和发送消息操作可以被定义到全局事务中，要么同时成功，要么同时失败。RocketMQ的事务消息提供类似 X/Open XA 的分布事务功能，通过事务消息能达到分布式事务的最终一致。
+
 ## 重试消息
 Consumer消费消息失败后，要提供一种重试机制，令消息再消费一次。Consumer消费消息失败通常可以认为有以下几种情况：
 
@@ -26,7 +27,7 @@ RocketMQ会为每个消费组都设置一个Topic名称为“%RETRY%+consumerGro
 
 retryTimesWhenSendFailed:同步发送失败重投次数，默认为2，因此生产者会最多尝试发送retryTimesWhenSendFailed + 1次。不会选择上次失败的broker，尝试向其他broker发送，最大程度保证消息不丢。超过重投次数，抛出异常，由客户端保证消息不丢。当出现RemotingException、MQClientException和部分MQBrokerException时会重投。
 retryTimesWhenSendAsyncFailed:异步发送失败重试次数，异步重试不会选择其他broker，仅在同一个broker上做重试，不保证消息不丢。
-retryAnotherBrokerWhenNotStoreOK:消息刷盘（主或备）超时或slave不可用（返回状态非SEND_OK），是否尝试发送到其他broker，默认false。十分重要消息可以开启。
+retryAnotherBrokerWhenNotStoreOK:消息刷盘（主或备）超时或slave不可用（返回状态非SEND\_OK），是否尝试发送到其他broker，默认false。十分重要消息可以开启。
 
 
 ## 流量控制
