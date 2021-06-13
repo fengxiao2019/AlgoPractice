@@ -4,7 +4,7 @@ import time, datetime
 
 pool = redis.ConnectionPool(host='localhost', port=6379, db=0)
 client = redis.Redis(connection_pool=pool)
-
+# 算法来源 https://medium.com/@SaiRahulAkarapu/rate-limiting-algorithms-using-redis-eb4427b47e33
 """
 算法：固定窗口限流算法
 优点：实现简单
