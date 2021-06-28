@@ -5,16 +5,18 @@
 `nodeNum`: 表示节点的个数
 `key` : 表示分区关键字
 确定key在哪个节点的算法
-	hash_function(key) % nodeNum
-	"""
-	因为hash结果值都比较大，所以可以采用逐位取模的方式
-	"""
-	def getHexStrMode(hex_str, mod_num):
-	    str_len = len(hex_str)
-	    result_mod = 0
-	    for idx, ch in enumerate(hex_str):
-	        result_mod = (result_mod * 16 + int(ch, 16)) % mod_num
-	    return result_mod
+```python
+"""
+hash_function(key) % nodeNum
+因为hash结果值都比较大，所以可以采用逐位取模的方式
+"""
+def getHexStrMode(hex_str, mod_num):
+    str_len = len(hex_str)
+    result_mod = 0
+    for idx, ch in enumerate(hex_str):
+        result_mod = (result_mod * 16 + int(ch, 16)) % mod_num
+    return result_mod
+```
 缺点：
 > 它不具有水平扩展性。每当系统中增加一个新的缓存主机，所有现有的映射就会被破坏。如果缓存系统包含大量的数据，这将是一个维护的痛点。实际上，很难安排一个停机时间来更新所有的缓存映射。
 > 它可能不是负载平衡的，特别是对于非均匀分布的数据。在实践中，可以很容易地假设数据不会被均匀地分布。对于缓存系统来说，这意味着一些缓存数据量大并且是热点数据，而其他的缓存则闲置和几乎为空。
