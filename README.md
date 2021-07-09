@@ -1,5 +1,6 @@
 # 数据结构练习笔记
 ## [每日练习][1]
+### [20210407](https://github.com/fengxiao2019/AlgoPractice/tree/master/daily/L20210407-link)
 ## [ 数据结构][2]
 ### [ 链表][3]
 ### [位操作][4]
