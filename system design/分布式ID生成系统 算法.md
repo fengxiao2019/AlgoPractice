@@ -37,7 +37,7 @@ UUID(Universally Unique Identifier)的标准型式包含32个16进制数字，�
 > - a 3-byte incrementing counter, initialized to a random value
 > While the BSON format itself is little-endian, the timestamp and counter values are big-endian, with the most significant bytes appearing first in the byte sequence.
 ### [数据库生成（Redis or MySQL）][2]
-以MySQL举例，利用给字段设置auto_increment_increment和auto_increment_offset来保证ID自增，每次业务使用下列SQL读写MySQL得到ID号。
+以MySQL举例，利用给字段设置auto\_increment\_increment和auto\_increment\_offset来保证ID自增，每次业务使用下列SQL读写MySQL得到ID号。
 ```sql
 begin;
 REPLACE INTO Tickets64 (stub) VALUES ('a');
@@ -68,11 +68,11 @@ auto-increment-offset = 2
 
 ### 美团的Leaf-Segment 数据库方案
 在数据库方案的基础上做了优化。原方案每次获取ID都得读写一次数据库，造成数据库压力大。改为利用proxy server批量获取，每次获取一个segment(step决定大小)号段的值。
-用完之后再去数据库获取新的号段，可以大大的减轻数据库的压力。 - 各个业务不同的发号需求用biz_tag字段来区分，每个biz-tag的ID获取相互隔离，互不影响。如果以后有性能需求需要对数据库扩容，不需要上述描述的复杂的扩容操作，只需要对 biz_tag 分库分表就行。
+用完之后再去数据库获取新的号段，可以大大的减轻数据库的压力。 - 各个业务不同的发号需求用biz\_tag字段来区分，每个biz-tag的ID获取相互隔离，互不影响。如果以后有性能需求需要对数据库扩容，不需要上述描述的复杂的扩容操作，只需要对 biz\_tag 分库分表就行。
 ![][image-2]
 字段说明：
 biz_tag 区分业务，业务标签
-max_id表示该biz_tag目前所被分配的ID号段的最大值。_
+max_id表示该biz_tag目前所被分配的ID号段的最大值。
 step表示每次分配的号段长度。
 ```sql
 Begin
@@ -83,15 +83,18 @@ Commit
 优点：
 - 横向扩展非常容易，性能完全能够支撑大多数业务场景。
 - ID号码是趋势递增的8byte的64位数字，满足上述数据库存储的主键要求。
-- 容灾性高：Leaf服务内部有号段缓存，即使DB宕机，短时间内Leaf仍能正常对外提供服务。
+- 容灾性高：**Leaf服务内部有号段缓存**，即使DB宕机，短时间内Leaf仍能正常对外提供服务。
 - 可以自定义max_id的大小，非常方便业务从原有的ID方式上迁移过来。
 缺点：
-- ID号码不够随机，能够泄露发号数量的信息，不太安全。
-- DB宕机会导致整个系统不可用（可以使用db的高可用配置（半同步、类Paxos算法”实现的强一致MySQL方案））。
+- 1.**ID号码不够随机**，能够泄露发号数量的信息，不太安全。
+- 2.DB宕机会导致整个系统不可用（可以使用db的高可用配置（半同步、类Paxos算法”实现的强一致MySQL方案））。
+- 3.任一节点的号段耗尽时都需要从 DB 中取出下一个号段再返回 ID ，这个延迟会造成一定的请求毛刺。
+优化点：可以使用双buffer，当其中一个 buffer 消耗到一定阈值时，异步更新下一个 buffer，这个阈值是可调整的。 buffer 太长有坏处，如果程序异常退出、正常重启，buffer 太长很容易造成巨大的 ID 空洞。一个号段的使用时间是由消费速度和 buffer 长度决定的。为了尽最大可能提升可用性， buffer 自然是越长越好，这样在 DB 出问题时，我们还能抗一段时间。
+
 ### 美团的Leaf-snowflake方案
 Leaf-segment方案可以生成**趋势递增的ID**，**同时ID号是可计算的**，**不适用于订单ID生成场景**，比如竞对在两天中午12点分别下单，通过订单id号相减就能大致计算出公司一天的订单量，这个是不能忍受的。
 #### 如何解决时钟回拨问题？
-服务启动时首先检查自己是否写过ZooKeeper leaf_forever节点。_
+服务启动时首先检查自己是否写～ZooKeeper leaf_forever节点。
 如果写过，对比机器和时间和 ZooKeeper leaf_forever 中存储的时间，如果差距比较大，说明，回拨严重，需要上报告警。
 如果没有写过， 写入，并且通过rpc 获取其它节点的时间，取中间值判断差值是否在可接受的范围内，如果在范围内，正常启动，否则，报警。
 每隔一段时间(3s)上报自身系统时间写入leaf_forever/${self}。
@@ -116,12 +119,12 @@ CREATE TABLE WORKER_NODE(
  COMMENT='DB WorkerID Assigner for UID Generator',ENGINE = INNODB;
 ```
 分布式ID的实例启动的时候，往这个表中插入一行数据，得到的id值就是准备赋给workerId的值。由于workerId默认22位，那么，集成UidGenerator生成分布式ID的所有实例重启次数是不允许超过4194303次（即2^22-1），否则会抛出异常。 当然也可以自定义生成workerid的方式。
-#### sequence 
+#### sequence
 - synchronized保证线程安全；
 - 如果时间有任何的回拨，那么直接抛出异常；
 - 如果当前时间和上一次是同一秒时间，那么sequence自增。如果同一秒内自增值超过2^13-1，那么就会自旋等待下一秒（getNextSecond）；
 - 如果是新的一秒，那么sequence重新从0开始
-#### CachedUidGenerator 
+#### CachedUidGenerator
 满足填充新的唯一ID条件时，通过时间值递增得到新的时间值（lastSecond.incrementAndGet()），而不是System.currentTimeMillis()这种方式，而lastSecond是AtomicLong类型，所以能保证线程安全问题。
 “””todo”
 

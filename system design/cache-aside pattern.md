@@ -15,12 +15,6 @@
 
 解决办法：
 如果是因为第三步回写失败的原因，可以利用消息队列重试机制进行补偿。
-
-
-
-
-
-
 引用：
 [https://docs.microsoft.com/en-us/azure/architecture/patterns/cache-aside][1]
 

@@ -35,8 +35,9 @@ Here are a few reasons to choose a SQL database:
 2. Generally, NoSQL databases sacrifice ACID compliance for scalability and processing speed, but for many e-commerce and financial applications, an ACID-compliant database remains the preferred option.
 3. Your data is **structured and unchanging**. If your business is not experiencing massive growth that would require more servers and if you’re only working with data that’s consistent, then there may be no reason to use a system designed to support a variety of data types and high traffic volume.
 
-### Reasons to use NoSQL database
-When all the other components of our application are fast and seamless, NoSQL databases prevent data from being the bottleneck. Big data is contributing to a large success for NoSQL databases, mainly because it handles data differently than the traditional relational databases. A few popular examples of NoSQL databases are MongoDB, CouchDB, Cassandra, and HBase.
-1. Storing large volumes of data that often have little to no structure. A NoSQL database sets no limits on the types of data we can store together and allows us to add different new types as the need changes. With document-based databases, you can store data in one place without having to define what “types” of data those are in advance.
-2. Making the most of cloud computing and storage. Cloud-based storage is an excellent cost- saving solution but requires data to be easily spread across multiple servers to scale up. Using commodity (affordable, smaller) hardware on-site or in the cloud saves you the hassle of additional software, and NoSQL databases like Cassandra are designed to be scaled across multiple data centers out of the box without a lot of headaches.
-3. Rapid development. NoSQL is extremely useful for rapid development as it doesn’t need to be prepped ahead of time. If you’re working on quick iterations of your system which require making frequent updates to the data structure without a lot of downtime between versions, a relational database will slow you down.
+### 选择NoSQL数据库的理由
+几个流行的NoSQL数据库的例子是MongoDB、CouchDB、Cassandra和HBase。
+1. 海量数据存储，数据没有固定的Schema。
+> NoSQL数据库对我们可以一起存储的数据类型没有设置任何限制，并允许我们根据需求的变化增加不同的新类型。通过基于文档的数据库，你可以将数据存储在一个地方，而不必事先定义那些数据的 "类型"。
+2. 充分发挥云计算和存储的作用。基于云的存储是一个很好的节约成本的解决方案，但需要将数据轻松地分散到多个服务器上，以扩大规模。在现场或云中使用商品（负担得起的、较小的）硬件，可以节省额外软件的麻烦，而且像Cassandra这样的NoSQL数据库被设计成可以在多个数据中心之间进行扩展，开箱即用，不会有太多的麻烦。
+3. 快速开发。NoSQL对于快速开发非常有用，因为它不需要提前准备。如果你正在进行系统的快速迭代，需要对数据结构进行频繁的更新，而在两个版本之间没有大量的停机时间，那么关系型数据库会拖累你。

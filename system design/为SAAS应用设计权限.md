@@ -6,7 +6,7 @@
 - IT要求和工业标准
 - 员工的数量
 - 网络安全预算
-		 
+			 
 ## 常见模型
 ### MAC  (Mandatory Access Control )
 强制性访问控制（MAC）是一种访问控制模式，操作系统根据数据保密性和用户许可级别为用户提供访问权限。在这种模式下，访问权是在需要知道的基础上授予的：用户在获得访问权之前必须证明对信息的需求。
@@ -100,10 +100,12 @@ ABAC的关键好处是，它不是根据用户角色而是根据每个系统组�
 ## 引用
 [https://www.ekransystem.com/en/blog/mac-vs-dac][2]
 [https://www.ekransystem.com/en/blog/rbac-vs-abac][3]
+[https://tech.youzan.com/sam/][4]
 
 [1]:	https://csrc.nist.gov/CSRC/media/Publications/conference-paper/2000/07/26/the-nist-model-for-role-based-access-control-towards-a-unified-/documents/sandhu-ferraiolo-kuhn-00.pdf
 [2]:	https://www.ekransystem.com/en/blog/mac-vs-dac
 [3]:	https://www.ekransystem.com/en/blog/rbac-vs-abac
+[4]:	https://tech.youzan.com/sam/
 
 [image-1]:	https://tva1.sinaimg.cn/large/008i3skNly1gre2p1z3ulj30r00g0q7x.jpg
 [image-2]:	https://tva1.sinaimg.cn/large/008i3skNly1gre42pbxguj60la0cq3z302.jpg
