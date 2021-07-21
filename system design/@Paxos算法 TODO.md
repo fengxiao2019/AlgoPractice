@@ -1,4 +1,4 @@
-@Paxos算法: 未完成
+@Paxos算法 TODO
 # 应用场景
 - leader election
 - group membership
