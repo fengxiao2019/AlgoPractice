@@ -108,8 +108,6 @@ else:
 问题：follower 因为宕机、运行缓慢、或者网络数据通信丢包等问题导致 leader 发出的 AppendEntriesRPC 调用没有得到响应
 处理方案：leader 会不限次数地一直进行重试直到所有的 follower 都存储了相同的 log 记录。
 
-
-
 引用
 [https://blog.csdn.net/lengxiao1993/article/details/108524808][1]
 [https://github.com/maemual/raft-zh\_cn/blob/master/raft-zh\_cn.md][2]

@@ -61,3 +61,4 @@ def merge_k_list(lists: List[ListNode], start: int, end: int) -> ListNode:
     right = merge_k_list(lists, mid + 1, end)
     return merge_list(left, right)
 
+from collections import defaultdict
