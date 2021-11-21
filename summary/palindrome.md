@@ -7,36 +7,40 @@
 [125. 验证回文串][1]
 只考虑字符串中的字母和数字，忽略大小写
 ```python
-"""
-回文串验证，利用特征：左半部分和右半部分完全相等
-双指针
-时间复杂度：O(n)
-空间复杂度：O(1)
-"""
-def isPalindrome(s: str) -> bool:
-    if len(s) <= 1: return True
-
-    l, r = 0, len(s) - 1
-    while l < r:
-        if not check_vaild(s[l]):
-            l += 1
-            cotinue
-        if not check_vaild(s[r]):
-            r -= 1
-            continue
+class Solution:
+    """
+    关键是了解回文串的特征：
+    假设存在回文字符串A，那么A == A[::-1]
+    可以基于该特征用python的列表表达式给出解答的方案
+    时间复杂度：O(n)
+    空间复杂度：O(n)
+    """
+    def isPalindrome(self, s: str) -> bool:
+        s = "".join(item.lower() for item in s if item.isalnum())
+        return s == s[::-1]
         
-        if l > r:
-            break
-        
-        if s[l].lower() == s[r].lower():
+    """
+    回文字符串的还有一个衍生的特征：左右两边对称
+    例如：ABCBA，以C为中点，C的左右两边对称。
+    如果字符串的长度是偶数，例如：ABCCBA，以CC 为中点的左右两边对称。
+    判断的方式可以从两边往中心逼近，也是双指针的典型应用场景
+    时间复杂度：O(n)
+    空间复杂度：O(1)
+    """
+    def isPalindrome(self, s: str) -> bool:
+        l, r = 0, len(s) - 1
+        while l < r:
+            while l < r and not s[l].isalnum():
+                l += 1
+
+            while r > l and not s[r].isalnum():
+                r -= 1
+            
+            if s[l].lower() != s[r].lower():
+                return False
             l += 1
             r -= 1
-        else:
-            return False
-    return True
-
-def check_vaild(s: str) -> bool:
-    return s.isalnum()
+        return True
 ```
 
 [234. 回文链表][2]
@@ -65,7 +69,7 @@ class Solution:
 
 当链表的长度为偶数时，l的长度 == r的长度
 当链表的长度为奇数时，l的长度 == r的长度 + 1
-#
+
 """
 # 分割链表
 def split_link(head):
@@ -131,7 +135,7 @@ class Solution:
         for i in range(len(palindrome)//2):
             if palindrome[i] != 'a':
                 return palindrome[:i] + 'a' + palindrome[i+1:]
-        return palindrome[:-1] + 'b'     
+        return palindrome[:-1] + 'b'
 ```
 
 [680. 验证回文字符串 Ⅱ][4]
@@ -223,8 +227,10 @@ dp[i][j] 和 dp[i+1][j] 和 dp[i][j-1]之间的关系
 dp[i][j] 定义为s[i:j+1]是否是一个回文串
 状态转移方程：
 当s[i] == s[j]时，
-	dp[i][j] = dp[i+1][j-1]
-每一次遍历更新begin 和 max_len 
+```
+dp[i][j] = dp[i+1][j-1]
+```
+每一次遍历更新begin 和 max\_len 
 
 [5. 最长回文子串][8]
 ```python

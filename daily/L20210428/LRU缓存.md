@@ -1,8 +1,7 @@
 LRU缓存
-### 实现方法1 
+### 实现方法1
 **思路**
 采用OrderedDIct 实现
-
 **代码**
 ```python
 from collections import OrderedDict
@@ -27,7 +26,7 @@ class LRUCache:
             self.cache.popitem(last=False)
 ```
 
-### 实现方法2 
+### 实现方法2
 **双向链表 + hash 表**
 **代码**
 ```python
@@ -79,7 +78,7 @@ class LRUCache:
             # 检查容量
             self.check_capacity() 
         else:
-            # 更爱你node 的value
+            # node 的value
             node = self.cache[key]
             node.value = value
             # 更新节点的位置
