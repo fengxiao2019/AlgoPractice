@@ -223,6 +223,121 @@ public:
         maxVal = max(left + right + root->val, maxVal);
         return root->val + max(left, right);
     }
-    
 };
 ```
+
+### 126  Invert Binary Tree
+> Given the root of a binary tree, invert the tree, and return its root.
+> ![](media/16403002917837/16404441666776.jpg)
+> Input: root = [4,2,7,1,3,6,9]
+> Output: [4,7,2,9,6,3,1]
+
+#### 解题思路
+方法1: 递归
+以题中的例子来说明，如果7 和 2这两颗子树都已经翻转完成，那么对于他们的父节点4来讲，只需要执行：
+    `root.left, root.right = root.right, root.left`
+符合大问题化解成小问题的规律，非常适合用递归来实现。
+退出条件：节点为空的时候，返回空。
+时间复杂度：O(n)
+空间复杂度：O(h)
+
+方法2: 迭代解法
+逐层进行交换，还是以题中的例子来说明，对于4来讲，我现将4的两个节点进行交换，例如，4 2 7 -> 4 7 2 
+下一个要处理的节点为7: 7  6  9 -> 7  9  6
+下一个要处理的节点为2: 2  1  3 -> 2  3  1
+叶子结点不需要处理，所以处理结束
+时间复杂度：O(n)
+空间复杂度：O(n)
+
+#### python 代码
+```
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+class Solution: 
+    # 方法1 
+    def invertTree(self, root: TreeNode) -> TreeNode:
+        if root is None: return root
+        left = self.invertTree(root.left)
+        right = self.invertTree(root.right)
+        root.left, root.right = root.right, root.left
+        return root
+    # 方法2
+    def invertTree(self, root: TreeNode) -> TreeNode:
+        if root is None: return root
+        queue = deque([root])
+        while queue:
+            top = queue.popleft()
+            top.left, top.right = top.right, top.left
+            
+            if top.left and (top.left.left or top.left.right):
+                queue.append(top.left)
+
+            if top.right and (top.right.left or top.right.right):
+                queue.append(top.right)
+        return root
+```
+#### golang 代码
+
+#### c++ 代码
+```
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+ // 方法1
+class Solution {
+public:
+    TreeNode* invertTree(TreeNode* root) {
+        if (root == nullptr) {
+            return root;
+        }
+        TreeNode* left = invertTree(root->left);
+        TreeNode* right = invertTree(root->right);
+        TreeNode* tmp = root->left;
+        root->left = right;
+        root->right = tmp;
+        return root;
+    }
+};
+
+// 方法2
+class Solution {
+public:
+    TreeNode* invertTree(TreeNode* root) {
+        if (root == nullptr) {
+            return root;
+        }
+        std::queue<TreeNode*> cur_queue({root});
+        
+        while (!cur_queue.empty()) {
+            TreeNode * top = cur_queue.front();
+            cur_queue.pop();
+            TreeNode* tmp = top->left;
+            top->left = top->right;
+            top->right = tmp;
+            if (top->left != nullptr && (top->left->left != nullptr or top->left->right != nullptr)) {
+                cur_queue.push(top->left);
+            }
+            if (top->right != nullptr && (top->right->left != nullptr or top->right->right != nullptr)) {
+                cur_queue.push(top->right);
+            }
+        }
+        return root;
+    }
+};
+```
+
+
+
