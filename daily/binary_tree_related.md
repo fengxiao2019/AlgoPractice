@@ -339,5 +339,69 @@ public:
 };
 ```
 
+### 104. Maximum Depth of Binary Tree
+Given the root of a binary tree, return its maximum depth.
 
+A binary tree's maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.
+![](media/16403002917837/16406213220080.jpg)
 
+#### 解题思路
+方法1: 利用DFS算法。
+最大的深度和最大的高度是一致的，可以利用最大高度求解。
+假设节点node的高度为h，node的左子节点的高度为h_l, node的右子节点的高度为h_r, 那么有 
+`h = max(h_l + h_r) + 1`
+这样，就可以将求节点node 的高度转化为求解node的左子节点和右子节点的高度。
+时间复杂度：O(n)
+空间复杂度：O(h)
+方法2: 利用BFS算法
+这个思路和逐层输出、按照锯齿形排序的思想是一致的，而且可以用一个模版。
+模板：
+```
+if root is None: return sth
+
+queue = deque([root])
+    while queue:
+        size = len(queue)
+        for i in range(size):
+            top = queue.popleft()
+            # do sth
+            if top.left:
+                queue.append(top.left)
+            if top.right:
+                queue.append(top.right)
+        # do sth
+    return sth
+```
+时间复杂度：O(n)
+空间复杂度：O(h)
+
+#### python 代码
+```
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+class Solution:
+    def maxDepth(self, root: Optional[TreeNode]) -> int:
+        if root is None:
+            return 0
+        left = self.maxDepth(root.left)
+        right = self.maxDepth(root.right)
+        return max(left, right) + 1
+    
+    def maxDepth(self, root: Optional[TreeNode]) -> int:
+        if root is None: return 0
+        ans = 0
+        queue = deque([root])
+        while queue:
+            size = len(queue)
+            for i in range(size):
+                top = queue.popleft()
+                if top.left:
+                    queue.append(top.left)
+                if top.right:
+                    queue.append(top.right)
+            ans += 1
+        return ans
+```
