@@ -405,3 +405,148 @@ class Solution:
             ans += 1
         return ans
 ```
+#### c++ 代码
+```
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    int maxDepth(TreeNode* root) {
+        if (root == nullptr) {
+            return 0;
+        }
+        int left = maxDepth(root->left);
+        int right = maxDepth(root->right);
+        return max(left, right) + 1;
+    }
+    
+};
+```
+### 剑指 Offer 26. 树的子结构
+输入两棵二叉树A和B，判断B是不是A的子结构。(约定空树不是任意一个树的子结构)
+
+B是A的子结构， 即 A中有出现和B相同的结构和节点值。
+
+#### 解题思路
+如果树B是A的子结构，那么树B的根节点可能是树A的任意节点。 因此，本质上还是遍历，因此这里包括两个步骤：
+1. 遍历A的所有节点.
+2. 对于任意一个遍历到的节点Ai, 判断B树是否是Ai的子树。
+所以，如果都用递归的话，这里有两个递归的地方。第一步可以使用递归，第二步也可以使用递归。
+当然，第一步也可以不使用递归，遍历的多种方式都可以用。
+#### 代码
+##### 实现方式1
+```
+class Solution:
+    def isSubStructure(self, A: TreeNode, B: TreeNode) -> bool:
+        return self.dfs(A, B) or self.isSubStructure(A.left, B) or self.isSubStructure(A.right, B)
+    
+    def dfs(self, A: TreeNode, B: TreeNode) -> bool:
+        if B is None: 
+            return True
+        if A is None:
+            return False
+        if A.val != B.val: return False
+        return self.dfs(A.left, B.left) and self.dfs(A.right, B.right)
+```
+##### 实现方式2
+```
+class Solution:
+    
+    def isSubStructure(self, A: TreeNode, B: TreeNode) -> bool:
+        if A is None or B is None: return False
+        stack = []
+        root = A
+        while stack or root:
+            if root:
+                if self.dfs(root, B):
+                    return True
+                stack.append(root)
+                root = root.left
+            else:
+                top = stack.pop()
+                root = top.right
+        
+        return False
+    
+    def dfs(self, A: TreeNode, B: TreeNode) -> bool:
+        if B is None: 
+            return True
+        if A is None:
+            return False
+        if A.val != B.val: return False
+        return self.dfs(A.left, B.left) and self.dfs(A.right, B.right)
+```
+### 426 将二叉搜索树转化为排序的双向链表
+将一个 二叉搜索树 就地转化为一个 已排序的双向循环链表 。
+
+对于双向循环列表，你可以将左右孩子指针作为双向循环链表的前驱和后继指针，第一个节点的前驱是最后一个节点，最后一个节点的后继是第一个节点。
+
+**特别地，我们希望可以 就地 完成转换操作。当转化完成以后，树中节点的左指针需要指向前驱，树中节点的右指针需要指向后继。还需要返回链表中最小元素的指针。**
+例如： root = [4,2,5,1,3] 
+![](media/16403002917837/16408168663085.jpg)
+输出：[1,2,3,4,5]
+
+#### 解题思路
+二叉搜索树的一个很重要的特征：二叉搜索树的中序遍历 是有序的。
+总的来说，需要明白这个题就是一个遍历的变形题。
+##### 方法1 两次遍历
+一种很直观的解决方法是两次遍历。
+step1: 对这颗二叉搜索树进行中序遍历，输出一个数组.
+step2: 遍历有序数组，生双向链表。
+
+代码如下：
+```
+class Solution:
+    def treeToDoublyList(self, root: 'Node') -> 'Node':
+        if root is None: return
+        array = []
+        def dfs(root: 'Node') -> 'Node':
+            if root is None: return
+            dfs(root.left)
+            array.append(root)
+            dfs(root.right)
+        dfs(root)
+        for i in range(1, len(array)):
+            array[i].left = array[i-1]
+            array[i-1].right = array[i]
+        array[0].left = array[-1]
+        array[-1].right = array[0]
+        return array[0]
+```
+##### 方法2 一次遍历
+可以注意到，其实在中序遍历的过程中，当前节点只关心上一个节点。只需要记录上一个节点。
+但是也有例外，因为是循环双向链表，所以，还要处理最小节点和最大节点。
+```
+class Solution:
+    def __init__(self):
+        self.last_node = None
+        self.start_node = None
+
+    def treeToDoublyList(self, root: 'Node') -> 'Node':
+        if root is None: return
+        self.dfs(root)
+        self.start_node.left = self.last_node
+        self.last_node.right = self.start_node
+        return self.start_node
+    
+    def dfs(self, root: 'Node') -> 'Node':
+        if root is None: return
+        self.dfs(root.left)
+        if self.last_node:
+            self.last_node.right, root.left =root, self.last_node
+        else:
+            self.start_node = root
+        
+        self.last_node = root
+        self.dfs(root.right)
+```
+
