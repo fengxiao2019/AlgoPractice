@@ -3,7 +3,7 @@
 
 ## 算法题
 ###  120.二叉树的层序遍历
-给你一个二叉树，请你返回其按 层序遍历 得到的节点值。 （即逐层地，从左到右访问所有节点）。
+给你一个二叉树，请你返回其按层序遍历得到的节点值。 （即逐层地，从左到右访问所有节点）。
 
 示例：
 二叉树：[3,9,20,null,null,15,7]
@@ -549,4 +549,56 @@ class Solution:
         self.last_node = root
         self.dfs(root.right)
 ```
+### 105. 从前序与中序遍历序列构造二叉树
+给定一棵树的前序遍历 preorder 与中序遍历  inorder。请构造二叉树并返回其根节点。
+示例 1:
+![](media/16403002917837/16408809063318.jpg)
+Input: preorder = [3,9,20,15,7], inorder = [9,3,15,20,7]
+Output: [3,9,20,null,null,15,7]
+**解题思路**
+关键是能够识别中序遍历的特征。
+- 中序遍历root节点左边的所有数据都是其左子树的中序遍历结果。
+- 中序遍历root节点右边的所有数据都是其右子树的中序遍历结果。
+- 先序遍历的第一个节点是根节点。
 
+根据上述的特征，我们可以把构造二叉分解成构造root节点左子树和右子树。
+以[3,9,20,15,7]      [9,3,15,20,7]
+分解成：左子树： [9] [9] 
+       右子树：[20,15, 7]  [15, 20, 7]
+继续递归分解，可以完成子树的构造。
+解题步骤：
+step1: 确认root 节点。
+step2: 计算在inorder中的index.
+step3: 计算左子树的元素个数
+step4: 确认左子树的preorder 和 inorder
+step5: 确认右子树的preorder 和 inorder
+step6: 递归构造左子树和右子树
+step7: from step1
+
+**代码**
+```
+class Solution:
+    def buildTree(self, preorder: List[int], inorder: List[int]) -> TreeNode:
+        if len(preorder) <= 1:
+            return TreeNode(preorder[0])
+        index_map = {node: i for i, node in enumerate(inorder)}
+        
+        def helper(pre_s: int, pre_e: int, in_s: int, in_e: int) -> TreeNode:
+            if pre_s > pre_e or in_s > in_e:
+                return None
+        
+            if pre_s == pre_e:
+                return TreeNode(preorder[pre_s])
+            
+            node = TreeNode(preorder[pre_s])
+            r_i = index_map[node.val]
+            pre_len = r_i - in_s
+            cur_pre_end = pre_s + pre_len
+            node.left = helper(pre_s + 1, cur_pre_end, in_s, r_i - 1)
+            node.right = helper(cur_pre_end + 1, pre_e, r_i + 1, in_e)
+            return node
+        return helper(0, len(preorder)- 1, 0, len(inorder) - 1)
+```     
+
+### 106 
+### 96 
