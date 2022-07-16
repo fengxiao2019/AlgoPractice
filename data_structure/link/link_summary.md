@@ -1,6 +1,6 @@
 # 链表题型总结
 链表题很多都可以通过以下几种方式单独和混合使用的方式解答。
-### 倒数第K个节点 
+### 倒数第K个节点
 ```python
 """
 当要返回倒数第k个节点时，k参数传递 k+1
@@ -206,8 +206,8 @@ def reverse_list_recursion(head: ListNode, tail: ListNode) -> ListNode:
  
 ### 链表合并
 
- - 有序链表合并 
- ```python
+ - 有序链表合并
+```python
 """
 类型1： k个有序链表的合并 k >= 2
 
@@ -228,27 +228,27 @@ from typing import List
 
 
 def merge_list(l1: ListNode, l2: ListNode) -> ListNode:
-    """
-    两个有序链表的合并
-    """
-    dummy = ListNode(0)
-    head = dummy
-    while l1 and l2:
-        if l1.val < l2.val:
-            head.next = l1
-            l1 = l1.next
-        else:
-            head.next = l2
-            l2 = l2.next
+   """
+   两个有序链表的合并
+   """
+   dummy = ListNode(0)
+   head = dummy
+   while l1 and l2:
+       if l1.val < l2.val:
+           head.next = l1
+           l1 = l1.next
+       else:
+           head.next = l2
+           l2 = l2.next
 
-        head = head.next
+       head = head.next
 
-    left_l = l1 or l2
-    head.next = left_l
-    return dummy.next
+   left_l = l1 or l2
+   head.next = left_l
+   return dummy.next
 ```
  - 交叉合并
- 
+	 
 ```python
 """
 类型2：交叉合并 
@@ -352,82 +352,82 @@ def detectCycle(head: ListNode) -> ListNode:
         slow = slow.next
         fast = fast.next
     return None
-``` 
+```
  
 ### 链表去重
  - 保留重复节点
- ```python
+```python
 def deleteDuplicates(head: ListNode) -> ListNode:
-    cur = head
-    while cur and cur.next:
-        if cur.val == cur.next.val:
-            cur.next = cur.next.next
-        else:
-            cur = cur.next
-    return head
+   cur = head
+   while cur and cur.next:
+       if cur.val == cur.next.val:
+           cur.next = cur.next.next
+       else:
+           cur = cur.next
+   return head
 ```
 
  - 删除重复节点
- ```python
+```python
 def delete_duplicate(head: ListNode) -> ListNode:
-    dummy = ListNode(0)
-    dummy.next = head
-    head = dummy
-    while head and head.next and head.next.next:
-        if head.next.val == head.next.next.val:
-            # 找到重复节点 去重复
-            to_remove = head.next.val
-            while head and head.next and head.next.val == to_remove:
-                if head.next.val == to_remove:
-                    head.next = head.next.next
-            continue
-        else:
-            head = head.next
-    return dummy.next
+   dummy = ListNode(0)
+   dummy.next = head
+   head = dummy
+   while head and head.next and head.next.next:
+       if head.next.val == head.next.next.val:
+           # 找到重复节点 去重复
+           to_remove = head.next.val
+           while head and head.next and head.next.val == to_remove:
+               if head.next.val == to_remove:
+                   head.next = head.next.next
+           continue
+       else:
+           head = head.next
+   return dummy.next
 ```
  
 ### 链表排序
  - 合并排序算法思想
  用到的思想就是递归 + 取中间节点 + 合并有序链表
- ```python
+```python
 def sort_list(head: ListNode, tail: ListNode) -> ListNode:
-    # 边界条件处理
-    if head is None:
-        return head
-    if head.next == tail:
-        head.next = None
-        return head
+   # 边界条件处理
+   if head is None:
+       return head
+   if head.next == tail:
+       head.next = None
+       return head
 
-    # 取中间节点
-    slow, fast = head, head
-    while fast != tail and fast.next != tail:
-        slow = slow.next
-        fast = fast.next.next
+   # 取中间节点
+   slow, fast = head, head
+   while fast != tail and fast.next != tail:
+       slow = slow.next
+       fast = fast.next.next
 
-    s_l = sort_list(head, slow)
-    s_r = sort_list(slow, tail)
-    return merge_sorted_link(s_l, s_r)
+   s_l = sort_list(head, slow)
+   s_r = sort_list(slow, tail)
+   return merge_sorted_link(s_l, s_r)
 ```
 
 ### 其他题目
  - 删除总和为零的连续节点
- ```
- """
+```
+"""
 1171. 从链表中删去总和值为零的连续节点
 A->B->C->D->E->F->D->None
 原理：如果A->...->F sum 为 100
-     并且A->...->C sum 为 100
-     说明D->...->F sum 为 0
-     
-     2. 在遍历节点不断推进的过程中，sum相同的节点会被后面的节点覆盖
-    0   1   2    3    4   5    6
+    并且A->...->C sum 为 100
+    说明D->...->F sum 为 0
+    
+    2. 在遍历节点不断推进的过程中，sum相同的节点会被后面的节点覆盖
+   0   1   2    3    4   5    6
 eg: 1-->2-->3-->-3-->-2-->3-->-3
 sum 1   3   6    3    1   4    1
 
 hash = {1: 6, 3: 3, 6: 3, 4: 4}
 
 第一个节点的sum 等于最后一个节点的sum，第二次遍历仅仅执行了第一个节点就完成了
-    
+   
 一次遍历获取截止到每个节点的sum，key 为sum，value 为 node
 再进行一次遍历，利用上面的原理，获得sum 为0的区间，删除
 
@@ -435,16 +435,16 @@ hash = {1: 6, 3: 3, 6: 3, 4: 4}
 时间复杂度：O(n)
 空间复杂度：O(n) 
 """
- ```
+```
  - 公共节点
- ```python
+```python
 """
 剑指 Offer 52. 两个链表的第一个公共节点
 解题思路：
 A1---->A2------>C1---->C2------>C3
-              /
-             B3
-             |
+             /
+            B3
+            |
 B1---->B2----|
 
 假设相遇点为C1:
@@ -454,7 +454,7 @@ B1---->B2----|
 
 那么，让A沿着A1->C1->C3  结束后，从B1开始走
 让B沿着B1->C1->C3  结束后，从A1开始走
-   
+  
 A     A1  A2  C1  C2   C3  B1  B2   B3   C1      X + Z  + Y
 B     B1  B2  B3  C1   C2  C3  A1   A2   C1      Y  + Z + X
 最终在C1相遇
@@ -488,7 +488,7 @@ eg: 假设，A.random 指向C，
 """
 ```
  - 插入排序
- ```python
+```python
 """
 147. 对链表进行插入排序
 排序过程中链表的头节点可能会发生变化
@@ -496,11 +496,11 @@ eg: 假设，A.random 指向C，
 2. 确定已经排序完成的链表的尾部节点 last_sorted，初始化为head
 3. 开始进行选择排序，从cur = head.next 节点开始
 4. case 1: cur.val >= last_sorted.val => 更新last_sorted
-   case 2: cur.val < last_sorted.val 
-           从dummy.next 开始找合适的节点，node.next.val > cur.val
-           将cur 从原来的位置移除掉 last_sorted.next = cur.next
-           将cur 插入到node的后面 tmp = node.next; node.next = cur;cur.next=tmp
-           更新cur = last_sorted.next 继续执行第四步
+  case 2: cur.val < last_sorted.val 
+          从dummy.next 开始找合适的节点，node.next.val > cur.val
+          将cur 从原来的位置移除掉 last_sorted.next = cur.next
+          将cur 插入到node的后面 tmp = node.next; node.next = cur;cur.next=tmp
+          更新cur = last_sorted.next 继续执行第四步
 5. 返回dummy.next
 
 时间复杂度：O(n^2)
